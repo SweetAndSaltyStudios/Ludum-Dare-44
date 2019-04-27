@@ -1,57 +1,93 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class InputManager : Singelton<InputManager>
+namespace Sweet_And_Salty_Studios
 {
-    private Collider2D selectedObject;
-    private bool isDragging;
+    public class InputManager : Singelton<InputManager>
+    {
+        private Camera mainCamera;
+        public GameObject selectedObject;
 
-    public bool MouseButtonDown(int index)
-    {
-        return Input.GetMouseButtonDown(index);
-    }
-    public bool MouseButton(int index)
-    {
-        return Input.GetMouseButton(index);
-    }
-    public bool MouseButtonUp(int index)
-    {
-        return Input.GetMouseButtonUp(index);
-    }
-
-    private void Update()
-    {
-        if (MouseButtonDown(0))
+        public Vector2 MousePosition
         {
-            isDragging = true;
-
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-
-            if (hit.collider != null)
+            get
             {
-                selectedObject = hit.collider;
+                return mainCamera.ScreenToWorldPoint(Input.mousePosition);
             }
         }
 
-        if (MouseButton(0))
+        public bool IsOverUI
         {
-            if (isDragging)
+            get
             {
-                MoveCollider();
+                return EventSystem.current.IsPointerOverGameObject();
+            }
+        }
+        public bool IsObjectSelected
+        {
+            get
+            {
+                return selectedObject != null;
             }
         }
 
-        if (MouseButtonUp(0))
+        public bool MouseButtonDown(int index)
         {
-            isDragging = false;
-            selectedObject = null;
+            return Input.GetMouseButtonDown(index);
         }
-    }
-
-    private void MoveCollider()
-    {
-        if(selectedObject != null)
+        public bool MouseButton(int index)
         {
-            selectedObject.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            return Input.GetMouseButton(index);
+        }
+        public bool MouseButtonUp(int index)
+        {
+            return Input.GetMouseButtonUp(index);
+        }
+
+        private void Awake()
+        {
+            mainCamera = Camera.main;
+        }
+
+        public void SetSelectedObject(GameObject newSelectedObject)
+        {
+            selectedObject = newSelectedObject;
+        }
+
+        private void Update()
+        {
+            if (MouseButtonDown(0))
+            {
+                if (IsOverUI)
+                {
+                    return;
+                }
+
+                var raycastHit2D = Physics2D.Raycast(MousePosition, Vector2.zero);
+
+                if (raycastHit2D.collider != null)
+                {
+                    SetSelectedObject(raycastHit2D.collider.gameObject);
+                }
+            }
+
+            if (MouseButton(0))
+            {
+                MoveCollider();               
+            }
+
+            if (MouseButtonUp(0))
+            {
+                SetSelectedObject(null);
+            }
+        }
+
+        private void MoveCollider()
+        {
+            if (IsObjectSelected)
+            {
+                selectedObject.transform.position = MousePosition;
+            }
         }
     }
 }
