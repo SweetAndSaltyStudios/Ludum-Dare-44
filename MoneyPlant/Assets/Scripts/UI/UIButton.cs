@@ -13,8 +13,6 @@ namespace Sweet_And_Salty_Studios
             base.OnPointerDown(eventData);
 
             ButtonEvent.Invoke();
-
-            Debug.Log("FOO");
         }
     }
 }
