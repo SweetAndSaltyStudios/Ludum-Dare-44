@@ -5,27 +5,51 @@ namespace Sweet_And_Salty_Studios
 {
     public class MoneyPlant : Selectable
     {
-        private const int MAX_SEGMENTS = 10;
-        private const float MIN_SEGMENT_GROW_DURATION = 2f;
-        private const float MAX_SEGMENT_GROW_DURATION = 8f;
+        private Money[] createdMoney;
+
+        private const float MIN_GROW_DURATION = 2f;
+        private const float MAX_GROW_DURATION = 8f;
+
+        private const int MIN_VALUE_AMOUNT = 5;
+        private const int MAX_VALUE_AMOUNT = 20;
 
         private Transform growPointContainer;
+        private Transform[] growPoints;
 
         private SpriteRenderer[] spriteRenderers;   
 
-        public float GrowNextSegmentDuration
+        public float GrowNextMoneyDuration
         {
             get 
             {
-                return Random.Range(MIN_SEGMENT_GROW_DURATION, MAX_SEGMENT_GROW_DURATION);
+                return Random.Range(MIN_GROW_DURATION, MAX_GROW_DURATION);
             }
         }
-
+        public int RandomValueAmount
+        {
+            get 
+            {
+                return Random.Range(MIN_VALUE_AMOUNT, MAX_VALUE_AMOUNT);
+            }
+        }
+     
         private void Awake()
         {
             growPointContainer = transform.Find("GrowPointContainer");
 
+            growPoints = new Transform[growPointContainer.childCount];
+            createdMoney = new Money[growPointContainer.childCount];
+
+            for (int i = 0; i < growPoints.Length; i++)
+            {
+                growPoints[i] = growPointContainer.GetChild(i);
+            }
             spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        }
+
+        private void Start()
+        {
+            StartCoroutine(ILifeTime());   
         }
 
         public override void ChangeColor(Color newColor)
@@ -36,6 +60,39 @@ namespace Sweet_And_Salty_Studios
                     continue;
 
                 spriteRenderers[i].color = newColor;
+            }
+        }
+
+        private void AddMoney(int growIndex)
+        {
+            var newMoneyInstance = GameManager.Instance.SpawnObject(
+                ResourceManager.Instance.MoneyPrefab,
+                growPoints[growIndex],
+                Vector2.zero,
+                Quaternion.identity
+                ).GetComponent<Money>();
+
+            newMoneyInstance.Initialize(RandomValueAmount);
+            createdMoney[growIndex] = newMoneyInstance;
+        }
+
+        private IEnumerator ILifeTime()
+        {
+            while (gameObject.activeSelf)
+            {
+                yield return new WaitForSeconds(GrowNextMoneyDuration);
+
+                for (int i = 0; i < createdMoney.Length; i++)
+                {
+                    var randomIndex = Random.Range(0, createdMoney.Length);
+
+                    if (createdMoney[randomIndex] == null)
+                    {
+                        AddMoney(randomIndex);
+                        break;
+                    }
+                }
+               
             }
         }
     }

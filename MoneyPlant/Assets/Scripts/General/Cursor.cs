@@ -14,6 +14,12 @@ namespace Sweet_And_Salty_Studios
 
                 break;
 
+                case 12:
+
+                GameManager.Instance.DespawnObject(collision.gameObject);
+
+                break;
+
                 default:
 
                 break;

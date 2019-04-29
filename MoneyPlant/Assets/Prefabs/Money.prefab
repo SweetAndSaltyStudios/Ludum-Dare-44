@@ -112,7 +112,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 0
+  m_text: 200 $
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -140,10 +140,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 4
+  m_fontSize: 3.3
   m_fontSizeBase: 4
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 0.1
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -178,12 +178,12 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0.08, y: 0.3, z: 0.08, w: 0.3}
   m_textInfo:
     textComponent: {fileID: 1401954007038206414}
-    characterCount: 1
+    characterCount: 5
     spriteCount: 0
-    spaceCount: 0
+    spaceCount: 1
     wordCount: 1
     linkCount: 0
     lineCount: 1
@@ -294,7 +294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8314333123920486035}
   - component: {fileID: 4859049346934239622}
-  - component: {fileID: 3764436461693838815}
+  - component: {fileID: -2711992335452414841}
   m_Layer: 10
   m_Name: Money
   m_TagString: Untagged
@@ -327,7 +327,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -346,7 +346,7 @@ PolygonCollider2D:
       - {x: -0.5005225, y: 0.08882521}
       - {x: -0.38722372, y: -0.3323782}
       - {x: 0.5005225, y: -0.08739255}
---- !u!114 &3764436461693838815
+--- !u!114 &-2711992335452414841
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -355,6 +355,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8825909361986915945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb6fe14513700b34f8f4fea88df1aa2f, type: 3}
+  m_Script: {fileID: 11500000, guid: 88ab49dc31cf82441b47c8b5a4aee0f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

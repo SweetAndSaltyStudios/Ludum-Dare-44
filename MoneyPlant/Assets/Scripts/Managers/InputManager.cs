@@ -7,6 +7,8 @@ namespace Sweet_And_Salty_Studios
     {
         private Cursor cursor;
 
+        private int plantsPlanted;
+
         private Color validPlacementColor = new Color(0, 255, 0, 0.25f);
         private Color invalidPlacementColor = new Color(255, 0, 0, 0.25f);
         private Color defaultColor = Color.white;
@@ -48,6 +50,11 @@ namespace Sweet_And_Salty_Studios
             }
         }
         public bool IsValidPlacement
+        {
+            get;
+            private set;
+        }
+        public bool CanStartGame
         {
             get;
             private set;
@@ -113,6 +120,7 @@ namespace Sweet_And_Salty_Studios
                         GameManager.Instance.DespawnObject(hittedObject);
 
                         break;
+                      
 
                         default:
 
@@ -152,8 +160,29 @@ namespace Sweet_And_Salty_Studios
                 GameManager.Instance.DespawnObject(currentlySelectedObject.gameObject);
             } 
             else
-            {
-                currentlySelectedObject.ChangeColor(defaultColor);            
+            {            
+                currentlySelectedObject.ChangeColor(defaultColor);
+               
+                if (currentlySelectedObject.FirstPlacement == false)
+                {
+                    if (CanStartGame == false)
+                        CanStartGame = true;
+
+                    currentlySelectedObject.FirstPlacement = true;
+                    GameManager.Instance.AddMoney(-GameManager.Instance.StartMoney);
+
+                    plantsPlanted++;
+
+                    if(plantsPlanted >= 4)
+                    {
+                        GameManager.Instance.Victory();
+                        return;
+                    }                  
+
+                    UIManager.Instance.UpdateGoalText("GOAL " + plantsPlanted + "/ 4");
+                }    
+
+
             }
 
             SetSelectedObject(null);
