@@ -2,14 +2,18 @@
 
 public class PlacementSpot : MonoBehaviour
 {
-    public bool CanPlace;
+    public bool CanPlace
+    {
+        get;
+        set;
+    }
 
     private void Awake()
     {
         Initialize();
     }
 
-    public void Initialize()
+    private void Initialize()
     {
         CanPlace = true;
     }

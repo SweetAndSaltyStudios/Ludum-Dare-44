@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,7 +14,10 @@ namespace Sweet_And_Salty_Studios
         private Transform[] placementSpots;
         private Transform[] rockSpawnPoints;
 
-        private bool playerWon;
+        public List<Selectable> PlantedPlants { get; private set; } = new List<Selectable>();
+        public List<Rock> Rocks { get; private set; } = new List<Rock>();
+
+        private bool playerWon, playerLost;
 
         public int StartMoney { get; private set; } = 200;
         public int CurrentMoney { get; private set; }
@@ -21,7 +25,8 @@ namespace Sweet_And_Salty_Studios
         {
             get 
             {
-                return CurrentMoney >= StartMoney;
+                var temp = CurrentMoney - 200;
+                return temp >= 0;
             }
         }
     
@@ -57,14 +62,57 @@ namespace Sweet_And_Salty_Studios
             }
         }
 
+        public void AddPlant(Selectable plant)
+        {
+          
+
+            PlantedPlants.Add(plant);
+
+            AddMoney(-200);
+
+            if (PlantedPlants.Count >= 5)
+            {
+                Victory();
+                return;
+            }
+
+            UIManager.Instance.UpdateGoalText("GOAL " + PlantedPlants.Count + " / 5");
+        }
+
+        public void RemovePlant(Selectable plant)
+        {
+            PlantedPlants.Remove(plant);
+
+            if(EnoughMoney == false && PlantedPlants.Count <= 0)
+            {
+                GameOver();
+            }
+        }
+
+        public void AddRock(Rock rock)
+        {
+            Rocks.Add(rock);
+
+          
+        }
+
+        public void RemoveRock(Rock rock)
+        {
+            Rocks.Remove(rock);
+
+        }
+
         private void LoadCurrentScene()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        public void DidWeLose()
+        public void ClearAllSpots()
         {
-            
+            for (int i = 0; i < placementSpots.Length; i++)
+            {
+                placementSpots[i].GetComponent<PlacementSpot>().CanPlace = true;
+            }
         }
 
         public void AddMoney(int amount)
@@ -81,6 +129,15 @@ namespace Sweet_And_Salty_Studios
                 StartCoroutine(IPlayerWin());
             }
             
+        }
+
+        public void GameOver()
+        {
+            if (playerLost == false)
+            {
+                if (Instance.gameObject.activeInHierarchy)
+                    StartCoroutine(IPlayerLost());
+            }
         }
 
         public void ShowPlacementSpots()
@@ -109,9 +166,14 @@ namespace Sweet_And_Salty_Studios
 
             yield return new WaitUntil(() => InputManager.Instance.CanStartGame);
 
-            while (playerWon == false)
+            while (true)
             {
                 yield return new WaitForSeconds(spawnDuration);
+
+                if (playerWon)
+                {
+                    break;
+                }
 
                 spawnDuration -= spawnDuration >= 0 ? 0.01f : 0;
 
@@ -124,6 +186,12 @@ namespace Sweet_And_Salty_Studios
 
         private IEnumerator IPlayerWin()
         {
+            foreach (var rock in Rocks)
+            {
+                if(rock != null)
+                Destroy(rock.gameObject);
+            }
+
             playerWon = true;
 
             UIManager.Instance.UpdateGoalText("VICTORY!");
@@ -135,7 +203,13 @@ namespace Sweet_And_Salty_Studios
 
         private IEnumerator IPlayerLost()
         {
+            foreach (var rock in Rocks)
+            {
+                Destroy(rock.gameObject);
+            }
+
             playerWon = false;
+            playerLost = true;
 
             UIManager.Instance.UpdateGoalText("GAME OVER!");
 

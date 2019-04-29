@@ -10,7 +10,7 @@ namespace Sweet_And_Salty_Studios
         private const float MIN_GROW_DURATION = 2f;
         private const float MAX_GROW_DURATION = 8f;
 
-        private const int MIN_VALUE_AMOUNT = 5;
+        private const int MIN_VALUE_AMOUNT = 10;
         private const int MAX_VALUE_AMOUNT = 20;
 
         private Transform growPointContainer;
@@ -32,7 +32,6 @@ namespace Sweet_And_Salty_Studios
                 return Random.Range(MIN_VALUE_AMOUNT, MAX_VALUE_AMOUNT);
             }
         }
-     
         private void Awake()
         {
             growPointContainer = transform.Find("GrowPointContainer");
@@ -49,7 +48,14 @@ namespace Sweet_And_Salty_Studios
 
         private void Start()
         {
+            Indestuctable = true;
+
             StartCoroutine(ILifeTime());   
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.Instance.RemovePlant(this);
         }
 
         public override void ChangeColor(Color newColor)
@@ -86,7 +92,7 @@ namespace Sweet_And_Salty_Studios
                 {
                     var randomIndex = Random.Range(0, createdMoney.Length);
 
-                    if (createdMoney[randomIndex] == null)
+                    if (createdMoney[randomIndex] == null && Indestuctable == false)
                     {
                         AddMoney(randomIndex);
                         break;

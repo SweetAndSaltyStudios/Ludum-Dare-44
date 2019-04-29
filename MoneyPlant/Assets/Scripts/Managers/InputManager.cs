@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEditor;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Sweet_And_Salty_Studios
@@ -95,6 +97,19 @@ namespace Sweet_And_Salty_Studios
 
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+
+            #if UNITY_EDITOR
+               
+                    EditorApplication.isPlaying = false;
+               
+            #else
+    
+                    Application.Quit();
+            #endif
+            }
+
             if (MouseButtonDown(0))
             {
                 var raycastHits2D = Physics2D.RaycastAll(MousePosition, Vector2.zero);
@@ -111,7 +126,7 @@ namespace Sweet_And_Salty_Studios
 
                         case 9:
 
-                        SetSelectedObject(hittedObject.GetComponent<MoneyPlant>());
+                        //SetSelectedObject(hittedObject.GetComponent<MoneyPlant>());
 
                         continue;
 
@@ -155,7 +170,9 @@ namespace Sweet_And_Salty_Studios
 
         private void PlaceSelectedObject()
         {
-            if(IsValidPlacement == false)
+            currentlySelectedObject.Indestuctable = false;
+
+            if (IsValidPlacement == false)
             {
                 GameManager.Instance.DespawnObject(currentlySelectedObject.gameObject);
             } 
@@ -169,20 +186,9 @@ namespace Sweet_And_Salty_Studios
                         CanStartGame = true;
 
                     currentlySelectedObject.FirstPlacement = true;
-                    GameManager.Instance.AddMoney(-GameManager.Instance.StartMoney);
 
-                    plantsPlanted++;
-
-                    if(plantsPlanted >= 4)
-                    {
-                        GameManager.Instance.Victory();
-                        return;
-                    }                  
-
-                    UIManager.Instance.UpdateGoalText("GOAL " + plantsPlanted + "/ 4");
+                    GameManager.Instance.AddPlant(currentlySelectedObject);                
                 }    
-
-
             }
 
             SetSelectedObject(null);
@@ -192,8 +198,10 @@ namespace Sweet_And_Salty_Studios
         }
 
         public void OnValidSpotEnter(PlacementSpot placementSpot)
-        {      
-            if (IsObjectSelected && placementSpot.CanPlace)
+        {
+            var foo = Physics2D.BoxCastAll(placementSpot.transform.position, Vector2.one * 0.5f, 0f, Vector2.zero);
+
+            if (IsObjectSelected && placementSpot.CanPlace && foo.Length < 3)
             {
                 placementSpot.CanPlace = false;
 
@@ -207,8 +215,8 @@ namespace Sweet_And_Salty_Studios
         {
             if (IsObjectSelected)
             {
-                if(placementSpot.CanPlace == false)
-                placementSpot.CanPlace = true;
+                if (placementSpot.CanPlace == false)
+                    placementSpot.CanPlace = true;
 
                 IsValidPlacement = false;
                 currentlySelectedObject.ChangeColor(invalidPlacementColor);

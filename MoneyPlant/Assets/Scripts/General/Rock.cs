@@ -5,17 +5,22 @@ namespace Sweet_And_Salty_Studios
 
     public class Rock : MonoBehaviour
     {
-        private new Rigidbody2D rigidbody2D;
+        private Rigidbody2D rb2D;
 
         private void Awake()
         {
-            rigidbody2D = GetComponent<Rigidbody2D>();
+            rb2D = GetComponent<Rigidbody2D>();
+        }
+
+        private void Start()
+        {
+            GameManager.Instance.AddRock(this);
         }
 
         public void AddForce()
         {
             var localPosition = transform.localPosition;
-            rigidbody2D.AddForce(new Vector2(-localPosition.x * 0.5f, Random.Range(12, 16)) , ForceMode2D.Impulse);
+            rb2D.AddForce(new Vector2(-localPosition.x * 0.5f, Random.Range(12, 16)) , ForceMode2D.Impulse);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -31,9 +36,11 @@ namespace Sweet_And_Salty_Studios
 
                 case 9:
 
-                GameManager.Instance.DespawnObject(collision.gameObject);
-
-                GameManager.Instance.DidWeLose();
+                if (collision.GetComponent<Selectable>().Indestuctable == false)
+                {
+                    GameManager.Instance.DespawnObject(collision.gameObject);
+                    GameManager.Instance.ClearAllSpots();
+                }
 
                 break;
 
@@ -45,6 +52,7 @@ namespace Sweet_And_Salty_Studios
                 case 11:
 
                 GameManager.Instance.DespawnObject(gameObject);
+                GameManager.Instance.RemoveRock(this);
 
                 break;
 

@@ -502,6 +502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentMoneyText: {fileID: 1570360931}
+  GoalText: {fileID: 973702308}
   BuyPlantButton: {fileID: 808244166}
 --- !u!1 &566222551
 GameObject:
@@ -976,7 +977,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: GOAL 0 / 4
+  m_text: GOAL 0 / 5
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1548,7 +1549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8af5224d4c6794bbaa97438ad7a6d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanPlace: 0
 --- !u!1 &1320170884
 GameObject:
   m_ObjectHideFlags: 0
@@ -1818,7 +1818,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1412074938}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Objective
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1843,7 +1843,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: 600, y: 120}
+  m_SizeDelta: {x: 550, y: 120}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1570360929
 GameObject:
@@ -2170,7 +2170,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1698182689}
   - component: {fileID: 1698182690}
-  - component: {fileID: 1698182692}
   - component: {fileID: 1698182691}
   m_Layer: 8
   m_Name: PlacementSpot 1
@@ -2232,20 +2231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8af5224d4c6794bbaa97438ad7a6d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanPlace: 0
---- !u!114 &1698182692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1698182688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8af5224d4c6794bbaa97438ad7a6d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CanPlace: 0
 --- !u!1 &1744729513
 GameObject:
   m_ObjectHideFlags: 0
@@ -2507,7 +2492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8af5224d4c6794bbaa97438ad7a6d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanPlace: 0
 --- !u!1 &1874165273
 GameObject:
   m_ObjectHideFlags: 0
@@ -2876,7 +2860,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8af5224d4c6794bbaa97438ad7a6d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanPlace: 0
 --- !u!1 &2098210518
 GameObject:
   m_ObjectHideFlags: 0
@@ -2979,7 +2962,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8af5224d4c6794bbaa97438ad7a6d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanPlace: 0
 --- !u!1 &2121266464
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,12 +20,11 @@ namespace Sweet_And_Salty_Studios
             {
                 CurrentMoneyText.color = Color.white;
 
-                InputManager.Instance.SetSelectedObject(
-                    GameManager.Instance.SpawnObject(
+                InputManager.Instance.SetSelectedObject(GameManager.Instance.SpawnObject(
                         ResourceManager.Instance.MoneyPlantPrefab,
                         GameManager.Instance.transform,
-                        InputManager.Instance.CursorPosition).GetComponent<MoneyPlant>()
-                        );
+                        InputManager.Instance.CursorPosition).GetComponent<MoneyPlant>());
+
             }        
         }
 
